@@ -6,6 +6,8 @@ import pycuda.driver as drv
 from pycuda import gpuarray
 from pycuda.compiler import SourceModule
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt 
 import matplotlib.animation as animation
 
@@ -65,8 +67,7 @@ conway_ker = ker.get_function("conway_ker")
      
 
 def update_gpu(frameNum, img, newLattice_gpu, lattice_gpu, N):
-    
-    conway_ker(  newLattice_gpu, lattice_gpu, grid=(N/32,N/32,1), block=(32,32,1)   )
+    conway_ker(  newLattice_gpu, lattice_gpu, grid=(N//32,N//32,1), block=(32,32,1)   )
     
     img.set_data(newLattice_gpu.get() )
     
